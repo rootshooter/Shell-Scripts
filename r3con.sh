@@ -40,28 +40,28 @@ cat $url/r3con/subdomains/assets.txt | grep $1 >> $url/r3con/subdomains/subs_fin
 rm $url/r3con/subdomains/assets.txt
 printf "${grn} [+]Finished!\n"
 
-#printf "${grn} [*] Collecting subdomains with Amass...\n"
-#amass enum -d $url >> $url/r3con/subdomains/a.txt
-#sort -u $url/r3con/subdomains/a.txt >> $url/r3con/subdomains/subs_final.txt
-#rm $url/r3con/subdomains/a.txt
-#printf "${grn} [+]Finished!\n"
+printf "${grn} [*] Collecting subdomains with Amass...\n"
+amass enum -d $url >> $url/r3con/subdomains/a.txt
+sort -u $url/r3con/subdomains/a.txt >> $url/r3con/subdomains/subs_final.txt
+rm $url/r3con/subdomains/a.txt
+printf "${grn} [+]Finished!\n"
 
 printf "${grn} [*] Gathering alive subdomains with httprobe...\n"
 cat $url/r3con/subdomains/subs_final.txt | sort -u | httprobe -s -p https:443 | sed 's/https\?:\/\///' | tr -d ':443' >> $url/r3con/subdomains/alive.txt
 printf "${grn} [+]Finished!\n"
 
-#printf "${grn} [*] Checking for open directories with Gobuster...\n"
-	#for sub in $(cat $url/r3con/subdomains/alive.txt);do
-		#gobuster dir -u $sub -k -w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt -o $url/r3con/gobuster/$sub.out
-	#done
-#printf "${grn} [+]Finished!\n"
+printf "${grn} [*] Checking for open directories with Gobuster...\n"
+	for sub in $(cat $url/r3con/subdomains/alive.txt);do
+		gobuster dir -u $sub -k -w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt -o $url/r3con/gobuster/$sub.out
+	done
+printf "${grn} [+]Finished!\n"
 
-#printf "${grn} [*] Checking for open ports with Nmap...\n"
-#nmap -iL $url/r3con/subdomains/alive.txt -T4 -oN $url/r3con/nmap/port_scan.nmap
-#printf "${grn} [+]Finished!\n"
+printf "${grn} [*] Checking for open ports with Nmap...\n"
+nmap -iL $url/r3con/subdomains/alive.txt -T4 -oN $url/r3con/nmap/port_scan.nmap
+printf "${grn} [+]Finished!\n"
 
-#printf "${grn} [*] Collecting screenshots with Eyewitness...\n"
-#eyewitness --web -f $url/r3con/subdomains/alive.txt -d $url/r3con/screenshots --resolve
-#printf "${grn} [+]Finished!\n"
-#printf "${grn} [*] Happy hunting @rootshooter!\n"
+printf "${grn} [*] Collecting screenshots with Eyewitness...\n"
+eyewitness --web -f $url/r3con/subdomains/alive.txt -d $url/r3con/screenshots --resolve
+printf "${grn} [+]Finished!\n"
+printf "${grn} [*] Happy hunting @rootshooter!\n"
 fi
